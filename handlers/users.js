@@ -39,9 +39,9 @@ exports.signup = (req,res) => {
         if(err){
             return res.send(err)
         } else {
-          const user = {username: username}
-          const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
-          return res.json({Token : token})
+            const user = {username: username}
+            const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
+            return res.json({Token : token})
         }
     })
 }
@@ -65,6 +65,22 @@ exports.login = (req,res) => {
       return res.json({Token : token})
     } else {
       return res.json({error : "Invalid username/password"})
+    }
+  })
+}
+
+exports.checkUsername = (req,res) => {
+  var username = req.params.username;
+  const CHECK_USERNAME = `SELECT * FROM users WHERE username='${username}'`
+  connection.query(CHECK_USERNAME,(err,results) => {
+    if(err){
+      return res.json({error : "Connection Not Established"})
+    } else {
+      if(results.length > 0){
+        return res.json({error : 'Username Not Available'})
+      } else {
+        return res.json({done : 'Username Available'})
+      }
     }
   })
 }
@@ -127,7 +143,7 @@ exports.getUserDetails = (req,res) => {
             }
             return res.json({user})
           } else {
-            return res.json({Error : "User does Not Exists !"})
+            return res.json({error : "User does Not Exists !"})
           }
         }
       })

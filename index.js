@@ -4,7 +4,7 @@ const fileUpload = require('express-fileupload')
 var mysql = require('mysql');
 const jwt = require('jsonwebtoken')
 
-const { signup, login, getUserDetails, makeFriend, unFriend, addUserDetails, addUserImage } = require('./handlers/users');
+const { signup, login, getUserDetails, makeFriend, unFriend, addUserDetails, addUserImage, checkUsername } = require('./handlers/users');
 const Auth = require('./util/Auth');
 const { post, getMainPosts, commentOnPost, getPostDetails, deleteComment, deletePost,getMyPosts, updatePost } = require('./handlers/posts');
 
@@ -40,7 +40,7 @@ app.listen(port,() => {
 //LOGIN ROUTES
 app.post('/signup',signup);
 app.post('/login',login);
-
+app.get('/:username',checkUsername)
 //POST ROUTES
 app.post('/post',Auth,post);//To post a series,book,movie
 
