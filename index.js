@@ -40,7 +40,7 @@ app.listen(port,() => {
 //LOGIN ROUTES
 app.post('/signup',signup);
 app.post('/login',login);
-app.get('/:username',checkUsername)
+//app.get('/:username',checkUsername)
 //POST ROUTES
 app.post('/post',Auth,post);//To post a series,book,movie
 

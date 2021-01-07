@@ -88,7 +88,7 @@ exports.checkUsername = (req,res) => {
 exports.getUserDetails = (req,res) => {
   var username = req.params.username;
   const IF_USER = `SELECT * FROM users WHERE username='${username}'`
-  const GET_USER = `SELECT new_schema.users.userid,new_schema.users.email,new_schema.users.firstname,new_schema.users.lastname,new_schema.users.image_name,new_schema.posts.post_id,new_schema.posts.name,new_schema.posts.review,new_schema.posts.start_date,new_schema.posts.postedAt,new_schema.posts.commentcount,new_schema.posts.type FROM new_schema.users,new_schema.posts WHERE users.username='${username}' AND posts.username='${username}' ORDER BY posts.postedAt DESC;`
+  const GET_USER = `SELECT new_schema.users.userid,new_schema.users.email,new_schema.users.firstname,new_schema.users.lastname,new_schema.users.image_name,new_schema.users.bio,new_schema.users.location,new_schema.posts.post_id,new_schema.posts.name,new_schema.posts.review,new_schema.posts.start_date,new_schema.posts.postedAt,new_schema.posts.commentcount,new_schema.posts.type FROM new_schema.users,new_schema.posts WHERE users.username='${username}' AND posts.username='${username}' ORDER BY posts.postedAt DESC;`
   connection.query(GET_USER,(err,result) => {
     if(err){
       return res.json({Error : "Connection Not Established"})
@@ -99,6 +99,8 @@ exports.getUserDetails = (req,res) => {
       var userid = result[0].userid;
       var email = result[0].email;
       var image_name = result[0].image_name;
+      var bio = result[0].bio;
+      var location = result[0].location;
       const user = {
         userid,
         username,
@@ -106,6 +108,8 @@ exports.getUserDetails = (req,res) => {
         firstname,
         lastname,
         image_name,
+        bio,
+        location
       }
       var series = []
       var books = []
@@ -133,13 +137,17 @@ exports.getUserDetails = (req,res) => {
             var userid = result[0].userid;
             var email = result[0].email;
             var image_name = result[0].image_name;
+            var bio = result[0].bio;
+            var location = result[0].location;
             const user = {
               userid,
               username,
               email,
               firstname,
               lastname,
-              image_name 
+              image_name,
+              bio,
+              location
             }
             return res.json({user})
           } else {
