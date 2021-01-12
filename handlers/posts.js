@@ -27,7 +27,7 @@ exports.post = (req,res) => {
                         name,
                         review,
                         type,
-                        image_name
+                        image_name,
                     }
                     return res.json({posted : post})
                 }
@@ -196,7 +196,7 @@ exports.getPostDetails = (req,res) => {
             if(result.length > 0){
                 console.log(result[0])
                 var posts = []
-                posts.push({post_id:result[0].post_id,name:result[0].name,review:result[0].review,start_date:result[0].start_date,postedAt:result[0].postedAt,commentcount:result[0].commentcount,type:result[0].type,image_name:result[0].image_name})
+                posts.push({username:result[0].username,post_id:result[0].post_id,name:result[0].name,review:result[0].review,start_date:result[0].start_date,postedAt:result[0].postedAt,commentcount:result[0].commentcount,type:result[0].type,image_name:result[0].image_name})
                 connection.query(GET_COMMENTS,(err,result) => {
                     if(err){
                         return res.json({error : "COnnection Not Established"})
